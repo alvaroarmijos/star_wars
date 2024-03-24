@@ -1,5 +1,8 @@
+import 'package:catalog/catalog.dart';
 import 'package:flutter/material.dart';
 import 'package:home/home.dart';
+import 'package:home/src/widgets/home_loading.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:utility/utility.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,35 +17,35 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    bloc = context.read<HomeBloc>()..add(const GetCharactersEvent(null));
+    bloc = context.read<HomeBloc>();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('HomePage'),
+      appBar: AppBar(
+        title: const Text('HomePage'),
+      ),
+      body: Scrollbar(
+        child: CustomScrollView(
+          slivers: [
+            PagedSliverList<String?, Character>(
+              pagingController: bloc.controller,
+              builderDelegate: PagedChildBuilderDelegate(
+                firstPageProgressIndicatorBuilder: (context) =>
+                    const HomeLoading(),
+                newPageProgressIndicatorBuilder: (context) =>
+                    const HomeLoading(),
+                itemBuilder: (context, item, index) => ListTile(
+                  title: Text(item.name),
+                  subtitle: Text(item.gender.name),
+                ),
+              ),
+            )
+          ],
         ),
-        body: BlocBuilder<HomeBloc, HomeState>(
-          builder: (context, state) {
-            switch (state.status) {
-              case ViewStatus.loading:
-              case ViewStatus.failure:
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
-              case ViewStatus.success:
-                return ListView.builder(
-                  itemCount: state.characters.results.length,
-                  itemBuilder: (context, index) => ListTile(
-                    title: Text(
-                      state.characters.results[index].name,
-                    ),
-                  ),
-                );
-            }
-          },
-        ));
+      ),
+    );
   }
 }

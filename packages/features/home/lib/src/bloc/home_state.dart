@@ -1,21 +1,19 @@
 part of 'home_bloc.dart';
 
 class HomeState extends Equatable {
-  const HomeState._({
-    this.status = ViewStatus.loading,
-    this.characters = Characters.empty,
-  });
+  const HomeState({
+    List<Character>? characters,
+  }) : characters = characters ?? const [];
 
-  const HomeState.loading() : this._();
+  final List<Character> characters;
 
-  const HomeState.success(Characters characters)
-      : this._(status: ViewStatus.success, characters: characters);
-
-  const HomeState.failure() : this._(status: ViewStatus.failure);
-
-  final ViewStatus status;
-  final Characters characters;
+  HomeState copyWith({
+    List<Character>? characters,
+  }) =>
+      HomeState(
+        characters: characters ?? this.characters,
+      );
 
   @override
-  List<Object?> get props => [status, characters];
+  List<Object?> get props => [characters];
 }

@@ -35,11 +35,14 @@ enum Gender {
   female,
   male,
   none,
+  hermaphrodite,
 }
 
 final genderValues = EnumValues({
   "female": Gender.female,
   "male": Gender.male,
+  "hermaphrodite": Gender.hermaphrodite,
+  "none": Gender.none,
   "n/a": Gender.none,
 });
 
