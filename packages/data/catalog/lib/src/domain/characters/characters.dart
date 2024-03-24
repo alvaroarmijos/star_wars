@@ -7,11 +7,16 @@ class Characters {
   final String? next;
   final List<Character> results;
 
-  Characters({
+  const Characters({
     required this.count,
     this.next,
     required this.results,
   });
+
+  static const empty = Characters(
+    count: 0,
+    results: [],
+  );
 
   factory Characters.fromRawJson(String str) =>
       Characters.fromJson(json.decode(str));

@@ -20,6 +20,8 @@ dependencies:
     path: packages/data/catalog/
   utility:
     path: packages/core/utility/
+  home:
+    path: packages/features/home/
 
 dev_dependencies:
 

@@ -47,9 +47,7 @@ class CharacterDto {
   final String? gender;
   final String? homeworld;
   final List<String>? films;
-  final List<String>? species;
-  final List<dynamic>? vehicles;
-  final List<String>? starships;
+
   final DateTime? created;
   final DateTime? edited;
   final String? url;
@@ -65,9 +63,6 @@ class CharacterDto {
     this.gender,
     this.homeworld,
     this.films,
-    this.species,
-    this.vehicles,
-    this.starships,
     this.created,
     this.edited,
     this.url,
@@ -86,20 +81,11 @@ class CharacterDto {
         skinColor: json["skin_color"],
         eyeColor: json["eye_color"],
         birthYear: json["birth_year"],
-        gender: json["gender"]!,
+        gender: json["gender"],
         homeworld: json["homeworld"],
         films: json["films"] == null
             ? []
             : List<String>.from(json["films"]!.map((x) => x)),
-        species: json["species"] == null
-            ? []
-            : List<String>.from(json["species"]!.map((x) => x)),
-        vehicles: json["vehicles"] == null
-            ? []
-            : List<dynamic>.from(json["vehicles"]!.map((x) => x)),
-        starships: json["starships"] == null
-            ? []
-            : List<String>.from(json["starships"]!.map((x) => x)),
         created:
             json["created"] == null ? null : DateTime.parse(json["created"]),
         edited: json["edited"] == null ? null : DateTime.parse(json["edited"]),
@@ -117,13 +103,6 @@ class CharacterDto {
         "gender": gender,
         "homeworld": homeworld,
         "films": films == null ? [] : List<dynamic>.from(films!.map((x) => x)),
-        "species":
-            species == null ? [] : List<dynamic>.from(species!.map((x) => x)),
-        "vehicles":
-            vehicles == null ? [] : List<dynamic>.from(vehicles!.map((x) => x)),
-        "starships": starships == null
-            ? []
-            : List<dynamic>.from(starships!.map((x) => x)),
         "created": created?.toIso8601String(),
         "edited": edited?.toIso8601String(),
         "url": url,

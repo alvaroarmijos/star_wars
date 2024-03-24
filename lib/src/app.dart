@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:home/home.dart';
+import 'package:star_wars/di/injection_container.dart';
+import 'package:utility/utility.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -19,10 +22,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(useMaterial3: true),
       darkTheme: ThemeData.dark(),
       // themeMode: settingsController.themeMode,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Star Wars App'),
-        ),
+      home: BlocProvider(
+        create: (context) => sl<HomeBloc>(),
+        child: const HomePage(),
       ),
     );
   }

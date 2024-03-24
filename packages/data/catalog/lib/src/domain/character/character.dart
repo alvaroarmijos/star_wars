@@ -40,7 +40,7 @@ enum Gender {
 final genderValues = EnumValues({
   "female": Gender.female,
   "male": Gender.male,
-  "none": Gender.none,
+  "n/a": Gender.none,
 });
 
 class EnumValues<T> {

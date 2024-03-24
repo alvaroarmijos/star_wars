@@ -1,7 +1,8 @@
-name: utility
+name: home
 description: A new Flutter package project.
 version: 0.0.1
 publish_to: 'none'
+homepage:
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
@@ -11,14 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # Remote API connection
-  http: ^0.13.5
-  # Service locator
-  get_it: ^7.6.0
-  # Bloc for state management
-  flutter_bloc: ^8.1.4
-  # Value equality
-  equatable: ^2.0.5
+  ##Pacakges
+  utility:
+    path: ../../core/utility/
+  catalog:
+    path: ../../data/catalog/
 
 dev_dependencies:
   flutter_test:
