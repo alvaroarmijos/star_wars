@@ -15,7 +15,7 @@ The data layer contain Entities, Repositories and Usecases. It should be totally
 
 <p>
     <img src="./docs/android.png" width="200"/ hspace="5"> 
-    <img src="./docs/iOS.png" width="200"/ hspace="5"> 
+    <img src="./docs/ios.png" width="200"/ hspace="5"> 
 </p>
 
 <p>
