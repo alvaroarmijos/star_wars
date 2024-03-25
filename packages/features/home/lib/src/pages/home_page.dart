@@ -23,14 +23,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('HomePage'),
-        actions: [
-          IconButton(
-              onPressed: (_showFilterBottomSheet),
-              icon: const Icon(Icons.filter_alt))
-        ],
-      ),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           switch (state.status) {
@@ -48,6 +40,10 @@ class _HomePageState extends State<HomePage> {
               return const HomeLoading();
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton.small(
+        onPressed: _showFilterBottomSheet,
+        child: const Icon(Icons.filter_alt),
       ),
     );
   }

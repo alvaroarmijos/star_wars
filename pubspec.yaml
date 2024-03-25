@@ -22,6 +22,8 @@ dependencies:
     path: packages/data/device/
   utility:
     path: packages/core/utility/
+  ui:
+    path: packages/core/ui/
   home:
     path: packages/features/home/
 
