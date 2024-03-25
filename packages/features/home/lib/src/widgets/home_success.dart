@@ -28,11 +28,12 @@ class HomeSuccess extends StatelessWidget {
             }
             return false;
           },
-          child: ListView.builder(
+          child: ListView.separated(
             itemCount: characters.length,
             itemBuilder: (context, index) => CharacterItem(
               character: characters[index],
             ),
+            separatorBuilder: (_, __) => const Divider(),
           ),
         ),
         if (loadingNewData)
