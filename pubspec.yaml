@@ -18,6 +18,8 @@ dependencies:
   ##Packages
   catalog:
     path: packages/data/catalog/
+  device:
+    path: packages/data/device/
   utility:
     path: packages/core/utility/
   home:
