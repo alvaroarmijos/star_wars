@@ -18,6 +18,10 @@ The data layer contain Entities, Repositories and Usecases. It should be totally
     <img src="./docs/iOS.png" width="200"/ hspace="5"> 
 </p>
 
+<p>
+    <img src="./docs/demo.gif" width="200"/ hspace="5"> 
+</p>
+
 ## Features
 
 - Display all Star Wars characters with their respective details, including:
