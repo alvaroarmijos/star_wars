@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:home/home.dart';
-import 'package:home/src/widgets/filter_bottom_sheet.dart';
-import 'package:home/src/widgets/home_loading.dart';
 import 'package:utility/utility.dart';
+
+import '../widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -38,38 +38,11 @@ class _HomePageState extends State<HomePage> {
             case ViewStatus.loading:
               return const HomeLoading();
             case ViewStatus.success:
-              return Stack(
-                children: [
-                  NotificationListener<ScrollNotification>(
-                    onNotification: (notification) {
-                      if (notification is ScrollEndNotification &&
-                          notification.metrics.extentAfter == 0) {
-                        // User has reached the end of the list
-                        // Load more data
-                        bloc.add(GetCharactersEvent(state.characters.next));
-                      }
-                      return false;
-                    },
-                    child: ListView.builder(
-                      itemCount: state.charactersFiltered.length,
-                      itemBuilder: (context, index) => ListTile(
-                        title: Text(state.charactersFiltered[index].name),
-                        trailing:
-                            Text(state.charactersFiltered[index].gender.name),
-                        subtitle: Text(
-                          state.charactersFiltered[index].films
-                              .map((film) => film.title)
-                              .join(', '),
-                        ),
-                      ),
-                    ),
-                  ),
-                  if (state.loadingNewData)
-                    const Align(
-                      alignment: Alignment.bottomCenter,
-                      child: LinearProgressIndicator(),
-                    )
-                ],
+              return HomeSuccess(
+                onScrollEndNotification: () =>
+                    bloc.add(GetCharactersEvent(state.characters.next)),
+                characters: state.charactersFiltered,
+                loadingNewData: state.loadingNewData,
               );
             default:
               return const HomeLoading();
