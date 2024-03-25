@@ -56,15 +56,10 @@ class _HomePageState extends State<HomePage> {
                         title: Text(state.charactersFiltered[index].name),
                         trailing:
                             Text(state.charactersFiltered[index].gender.name),
-                        subtitle: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ...state.charactersFiltered[index].films
-                                .map((film) => Text(
-                                      film.title,
-                                    ))
-                                .toList()
-                          ],
+                        subtitle: Text(
+                          state.charactersFiltered[index].films
+                              .map((film) => film.title)
+                              .join(', '),
                         ),
                       ),
                     ),
