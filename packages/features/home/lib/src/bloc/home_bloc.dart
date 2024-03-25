@@ -11,6 +11,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     this._getCharactersUseCase,
   ) : super(const HomeState()) {
     on<GetCharactersEvent>(_onGetCharactersEvent);
+    on<AddFilterEvent>(_onAddFilterEvent);
   }
 
   final GetCharactersUseCase _getCharactersUseCase;
@@ -28,12 +29,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       return emit.forEach<Characters>(
         _getCharactersUseCase(event.next),
         onData: (characters) {
+          final allCharacters = [...state.allCharacters, ...characters.results];
+
+          final charactersFiltered = state.filter == Gender.all
+              ? allCharacters
+              : allCharacters
+                  .where(
+                    (character) => character.gender == state.filter,
+                  )
+                  .toList();
+
           return state.copyWith(
             characters: characters,
-            charactersFiltered: [
-              ...state.charactersFiltered,
-              ...characters.results
-            ],
+            allCharacters: allCharacters,
+            charactersFiltered: charactersFiltered,
             status: ViewStatus.success,
             loadingNewData: false,
             lastPage: characters.next == null,
@@ -41,5 +50,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         },
       );
     }
+  }
+
+  FutureOr<void> _onAddFilterEvent(
+    AddFilterEvent event,
+    Emitter<HomeState> emit,
+  ) {
+    final charactersFiltered = event.filter == Gender.all
+        ? state.allCharacters
+        : state.allCharacters
+            .where(
+              (character) => character.gender == event.filter,
+            )
+            .toList();
+
+    emit(
+      state.copyWith(
+        charactersFiltered: charactersFiltered,
+        filter: event.filter,
+      ),
+    );
   }
 }

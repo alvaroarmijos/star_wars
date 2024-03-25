@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home/home.dart';
+import 'package:home/src/widgets/filter_bottom_sheet.dart';
 import 'package:home/src/widgets/home_loading.dart';
 import 'package:utility/utility.dart';
 
@@ -24,6 +25,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('HomePage'),
+        actions: [
+          IconButton(
+              onPressed: (_showFilterBottomSheet),
+              icon: const Icon(Icons.filter_alt))
+        ],
       ),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
@@ -75,6 +81,13 @@ class _HomePageState extends State<HomePage> {
           }
         },
       ),
+    );
+  }
+
+  void _showFilterBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => const FilterBottomSheet(),
     );
   }
 }

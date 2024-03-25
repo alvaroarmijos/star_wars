@@ -17,6 +17,7 @@ enum Gender {
   male,
   none,
   hermaphrodite,
+  all,
 }
 
 final genderValues = EnumValues({
@@ -25,6 +26,7 @@ final genderValues = EnumValues({
   "hermaphrodite": Gender.hermaphrodite,
   "none": Gender.none,
   "n/a": Gender.none,
+  "all": Gender.all,
 });
 
 class EnumValues<T> {
