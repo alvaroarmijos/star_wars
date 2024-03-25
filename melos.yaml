@@ -22,3 +22,13 @@ scripts:
   sync:
     run: melos exec -- "flutter clean" && melos exec -- "flutter pub get"
     description: Run `flutter clean && flutter pub get` in all packages
+  unit_test:
+    run: melos exec --dir-exists="test" --fail-fast -- flutter test --no-pub --coverage
+    description: Run all Flutter tests in this project.
+  gen_coverage:
+    run: |
+      melos run unit_test 
+      melos exec -c 1 -- "\$MELOS_ROOT_PATH/scripts/combine_coverage.sh"
+      lcov --remove MELOS_ROOT_PATH/coverage_report/lcov.info "**/di/" -o MELOS_ROOT_PATH/coverage_report/lcov.info
+      coverde value -i MELOS_ROOT_PATH/coverage_report/lcov.info > MELOS_ROOT_PATH/coverage_report/result.txt
+      melos exec -c 1 -- genhtml \$MELOS_ROOT_PATH/coverage_report/lcov.info -o \$MELOS_ROOT_PATH/coverage_report/html
