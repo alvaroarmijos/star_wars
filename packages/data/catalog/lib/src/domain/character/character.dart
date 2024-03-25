@@ -1,15 +1,26 @@
+import 'package:utility/utility.dart';
+
 import '../film/film.dart';
 
-class Character {
+class Character extends Equatable {
   final String name;
   final Gender gender;
   final List<Film> films;
 
-  Character({
+  const Character({
     required this.name,
     required this.gender,
     required this.films,
   });
+
+  static const empty = Character(
+    name: '',
+    gender: Gender.none,
+    films: [],
+  );
+
+  @override
+  List<Object?> get props => [name, gender, films];
 }
 
 enum Gender {

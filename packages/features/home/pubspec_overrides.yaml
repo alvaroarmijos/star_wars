@@ -1,0 +1,6 @@
+# melos_managed_dependency_overrides: catalog,utility
+dependency_overrides:
+  catalog:
+    path: ../../data/catalog
+  utility:
+    path: ../../core/utility

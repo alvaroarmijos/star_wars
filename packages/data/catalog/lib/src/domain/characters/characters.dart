@@ -1,6 +1,8 @@
+import 'package:utility/utility.dart';
+
 import '../character/character.dart';
 
-class Characters {
+class Characters extends Equatable {
   final int count;
   final String? next;
   final List<Character> results;
@@ -15,4 +17,7 @@ class Characters {
     count: 0,
     results: [],
   );
+
+  @override
+  List<Object?> get props => [count, next, results];
 }
