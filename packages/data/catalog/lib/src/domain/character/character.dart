@@ -1,34 +1,15 @@
-import 'dart:convert';
+import '../film/film.dart';
 
 class Character {
   final String name;
   final Gender gender;
-  final List<String> films;
+  final List<Film> films;
 
   Character({
     required this.name,
     required this.gender,
     required this.films,
   });
-
-  factory Character.fromRawJson(String str) =>
-      Character.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory Character.fromJson(Map<String, dynamic> json) => Character(
-        name: json["name"],
-        gender: genderValues.map[json["gender"]]!,
-        films: json["films"] == null
-            ? []
-            : List<String>.from(json["films"]!.map((x) => x)),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "gender": genderValues.reverse[gender],
-        "films": List<dynamic>.from(films.map((x) => x)),
-      };
 }
 
 enum Gender {

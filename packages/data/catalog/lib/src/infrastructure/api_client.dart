@@ -17,7 +17,34 @@ class CatalogApiClient {
     try {
       final resp = await _client.get(url);
       if (resp.statusCode == HttpStatus.ok) {
-        return CharactersDto.fromRawJson(resp.body);
+        final characters = CharactersDto.fromRawJson(resp.body);
+
+        for (var character in characters.results) {
+          if (character.filmsUrl.isNotEmpty) {
+            final films = await Future.wait(
+              character.filmsUrl.map(
+                (filmUrl) => getFilm(filmUrl),
+              ),
+            );
+
+            character.films = films;
+          }
+        }
+
+        return characters;
+      } else {
+        throw Exception();
+      }
+    } catch (e) {
+      throw Exception();
+    }
+  }
+
+  Future<FilmDto> getFilm(String url) async {
+    try {
+      final resp = await _client.get(Uri.parse(url));
+      if (resp.statusCode == HttpStatus.ok) {
+        return FilmDto.fromRawJson(resp.body);
       } else {
         throw Exception();
       }

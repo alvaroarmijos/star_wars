@@ -46,7 +46,8 @@ class CharacterDto {
   final String? birthYear;
   final String? gender;
   final String? homeworld;
-  final List<String>? films;
+  final List<String> filmsUrl;
+  List<FilmDto> films;
 
   final DateTime? created;
   final DateTime? edited;
@@ -62,11 +63,16 @@ class CharacterDto {
     this.birthYear,
     this.gender,
     this.homeworld,
-    this.films,
+    this.filmsUrl = const [],
+    this.films = const [],
     this.created,
     this.edited,
     this.url,
   });
+
+  set filmsDto(List<FilmDto> value) {
+    films = value;
+  }
 
   factory CharacterDto.fromRawJson(String str) =>
       CharacterDto.fromJson(json.decode(str));
@@ -83,7 +89,7 @@ class CharacterDto {
         birthYear: json["birth_year"],
         gender: json["gender"],
         homeworld: json["homeworld"],
-        films: json["films"] == null
+        filmsUrl: json["films"] == null
             ? []
             : List<String>.from(json["films"]!.map((x) => x)),
         created:
@@ -102,9 +108,29 @@ class CharacterDto {
         "birth_year": birthYear,
         "gender": gender,
         "homeworld": homeworld,
-        "films": films == null ? [] : List<dynamic>.from(films!.map((x) => x)),
+        "films": List<dynamic>.from(filmsUrl.map((x) => x)),
         "created": created?.toIso8601String(),
         "edited": edited?.toIso8601String(),
         "url": url,
+      };
+}
+
+class FilmDto {
+  final String title;
+
+  FilmDto({
+    this.title = '',
+  });
+
+  factory FilmDto.fromRawJson(String str) => FilmDto.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory FilmDto.fromJson(Map<String, dynamic> json) => FilmDto(
+        title: json["title"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "title": title,
       };
 }

@@ -1,4 +1,5 @@
 import 'package:catalog/catalog.dart';
+import 'package:catalog/src/infrastructure/film/film_mapper.dart';
 import 'package:utility/utility.dart';
 
 import '../src/domain/characters/characters_repository.dart';
@@ -12,7 +13,8 @@ Future<void> configureDependencies(GetIt sl) async {
   sl.registerLazySingleton(() => GetCharactersUseCase(sl()));
 
   //Mappers
-  sl.registerLazySingleton(() => const CharacterMapper());
+  sl.registerLazySingleton(() => const FilmMapper());
+  sl.registerLazySingleton(() => CharacterMapper(sl()));
   sl.registerLazySingleton(() => CharactersMapper(sl()));
 
   //Repository

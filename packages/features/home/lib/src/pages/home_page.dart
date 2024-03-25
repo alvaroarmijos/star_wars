@@ -39,7 +39,17 @@ class _HomePageState extends State<HomePage> {
                     const HomeLoading(),
                 itemBuilder: (context, item, index) => ListTile(
                   title: Text(item.name),
-                  subtitle: Text(item.gender.name),
+                  trailing: Text(item.gender.name),
+                  subtitle: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ...item.films
+                          .map((film) => Text(
+                                film.title,
+                              ))
+                          .toList()
+                    ],
+                  ),
                 ),
               ),
             )
