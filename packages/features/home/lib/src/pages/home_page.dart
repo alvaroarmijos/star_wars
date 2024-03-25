@@ -1,8 +1,6 @@
-import 'package:catalog/catalog.dart';
 import 'package:flutter/material.dart';
 import 'package:home/home.dart';
 import 'package:home/src/widgets/home_loading.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:utility/utility.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +15,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    bloc = context.read<HomeBloc>();
+    bloc = context.read<HomeBloc>()..add(const GetCharactersEvent(null));
     super.initState();
   }
 
@@ -27,34 +25,55 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('HomePage'),
       ),
-      body: Scrollbar(
-        child: CustomScrollView(
-          slivers: [
-            PagedSliverList<String?, Character>(
-              pagingController: bloc.controller,
-              builderDelegate: PagedChildBuilderDelegate(
-                firstPageProgressIndicatorBuilder: (context) =>
-                    const HomeLoading(),
-                newPageProgressIndicatorBuilder: (context) =>
-                    const HomeLoading(),
-                itemBuilder: (context, item, index) => ListTile(
-                  title: Text(item.name),
-                  trailing: Text(item.gender.name),
-                  subtitle: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ...item.films
-                          .map((film) => Text(
-                                film.title,
-                              ))
-                          .toList()
-                    ],
+      body: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          switch (state.status) {
+            case ViewStatus.failure:
+            case ViewStatus.loading:
+              return const HomeLoading();
+            case ViewStatus.success:
+              return Stack(
+                children: [
+                  NotificationListener<ScrollNotification>(
+                    onNotification: (notification) {
+                      if (notification is ScrollEndNotification &&
+                          notification.metrics.extentAfter == 0) {
+                        // User has reached the end of the list
+                        // Load more data
+                        bloc.add(GetCharactersEvent(state.characters.next));
+                      }
+                      return false;
+                    },
+                    child: ListView.builder(
+                      itemCount: state.charactersFiltered.length,
+                      itemBuilder: (context, index) => ListTile(
+                        title: Text(state.charactersFiltered[index].name),
+                        trailing:
+                            Text(state.charactersFiltered[index].gender.name),
+                        subtitle: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ...state.charactersFiltered[index].films
+                                .map((film) => Text(
+                                      film.title,
+                                    ))
+                                .toList()
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            )
-          ],
-        ),
+                  if (state.loadingNewData)
+                    const Align(
+                      alignment: Alignment.bottomCenter,
+                      child: LinearProgressIndicator(),
+                    )
+                ],
+              );
+            default:
+              return const HomeLoading();
+          }
+        },
       ),
     );
   }
