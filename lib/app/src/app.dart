@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home/home.dart';
-import 'package:star_wars/di/injection_container.dart';
+import 'package:star_wars/app/di/injection_container.dart';
 import 'package:ui/ui.dart';
 import 'package:utility/utility.dart';
 
